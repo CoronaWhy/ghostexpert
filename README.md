@@ -1,6 +1,6 @@
 # Intelligent Agent powered by Artificial Intelligence
 
-This agent is designed to navigate the Web (Web 2.0), intelligently process information and execute some actions in the automous mode.
+This agent is designed to navigate the Web (Web 2.0), intelligently process information and execute some actions in the autonomous mode.
 
 Its functionalities include:
 
