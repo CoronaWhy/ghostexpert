@@ -4,13 +4,21 @@ This agent is designed to navigate the Web (Web 2.0), intelligently process info
 
 ## Intro
 
-Run any prompt and Intelligent Agent will give you requested information back. 
+Run any prompt and Intelligent Agent will run some actions and give you requested information back. 
 
 Example:
 "I am searching for the most recent news or updates related to ChatGPT."
 
-Expected result is RSS feed like:
+Expected result is RSS feed like this:
 ```
+<?xml version="1.0" encoding="UTF-8"?>
+  <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+      <title>chatgpt</title>
+      <link>https://now.museum</link>
+      <description>Now.Museum feed on chatgpt</description>
+      <language>en-US</language>
+      <generator>rfeed v1.1.1</generator>
       <item>
         <title>Winner of Japan's top literary prize used ChatGPT</title>
         <link>http://www.thenationalnews.com/arts-culture/books/2024/01/20/japan-chatgpt-author-winner/</link>
