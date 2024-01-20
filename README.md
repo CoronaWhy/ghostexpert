@@ -28,7 +28,7 @@ Expected result is RSS feed like this and it can be shared with other people by 
       </item>
       ...
 ```
-### Example: analysis prompt
+### Example: facts extraction
 Prompt: "Recognize all facts in the following statements, and put them in the knowledge graph"
 ```
 {
