@@ -7,7 +7,7 @@ This agent is designed to navigate the Web (Web 2.0), intelligently process info
 Run any prompt and Intelligent Agent will run some actions and give you requested information back. 
 
 ### Example: discovery prompt
-"I am searching for the most recent news or updates related to ChatGPT."
+Prompt: "I am searching for the most recent news or updates related to ChatGPT."
 
 Expected result is RSS feed like this and it can be shared with other people by Decentralized Identifiers called DIDs:
 ```
@@ -29,7 +29,7 @@ Expected result is RSS feed like this and it can be shared with other people by 
       ...
 ```
 ### Example: analysis prompt
-"Recognize all facts in the following statements, and put them in the knowledge graph"
+Prompt: "Recognize all facts in the following statements, and put them in the knowledge graph"
 ```
 {
   "0": {
@@ -64,7 +64,20 @@ Expected result is RSS feed like this and it can be shared with other people by 
     ]
   },
 ```
+### Example: information request
+Prompt: "Give me some information on Dutch companies active in Asian market" 
 
+Some links in the result:
+```
+[
+  "https://www.digitimes.com/news/a20220823VL204/china-chips-act-equipment-semiconductor-us-china-trade-war.html",
+  "https://www.theguardian.com/business/2019/aug/01/shell-worst-financial-results-since-2016-oil-price-clash-gas",
+  "https://www.eastwestbank.com/ReachFurther/en/News/Article/Chinas-Computer-Chip-Industry-Plays-Catch-Up",
+  "https://asia.nikkei.com/Spotlight/DealStreetAsia/German-owned-South-Korean-food-delivery-service-expands-to-Hanoi",
+  "https://www.todayonline.com/business/dutch-firm-tables-s145b-takeover-bid-super-group",
+  "https://vietnamnews.vn/bizhub/450359/heineken-s-annual-sustainability-report-out.html"
+]
+```
 ## Features
 
 * Information Harvesting: The agent is capable of autonomously collecting relevant data from various sources on the Web.
