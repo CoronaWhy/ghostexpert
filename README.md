@@ -9,7 +9,7 @@ Run any prompt and Intelligent Agent will run some actions and give you requeste
 Example:
 "I am searching for the most recent news or updates related to ChatGPT."
 
-Expected result is RSS feed like this:
+Expected result is RSS feed like this and it can be shared with other people by Decentralized Identifiers called DIDs:
 ```
 <?xml version="1.0" encoding="UTF-8"?>
   <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
