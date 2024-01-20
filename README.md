@@ -2,7 +2,26 @@
 
 This agent is designed to navigate the Web (Web 2.0), intelligently process information and execute some actions in the autonomous mode.
 
-Its functionalities include:
+## Intro
+
+Run any prompt and Intelligent Agent will give you requested information back. 
+
+Example:
+"I am searching for the most recent news or updates related to ChatGPT."
+
+Expected result is RSS feed like:
+```
+      <item>
+        <title>Winner of Japan's top literary prize used ChatGPT</title>
+        <link>http://www.thenationalnews.com/arts-culture/books/2024/01/20/japan-chatgpt-author-winner/</link>
+        <description> Rie Kudan tasked internet bot to help write 5 per cent of novel Rie Kudan's book Tokyo-to Dojo-to (Tokyo Sympathy Tower) won the Akutagawa Prize. Photo: The Yomiuri Shimbun Powered by automated translation A Japanese author won the country’s top literary prize – then admitted to using ChatGPT to write a portion of the book.</description>
+        <author>thenationalnews.com</author>
+        <guid isPermaLink="true">http://www.thenationalnews.com/arts-culture/books/2024/01/20/japan-chatgpt-author-winner/</guid>
+      </item>
+      ...
+```
+
+## Features
 
 * Information Harvesting: The agent is capable of autonomously collecting relevant data from various sources on the Web.
 
