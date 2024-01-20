@@ -6,7 +6,7 @@ This agent is designed to navigate the Web (Web 2.0), intelligently process info
 
 Run any prompt and Intelligent Agent will run some actions and give you requested information back. 
 
-Example:
+### Example: discovery prompt
 "I am searching for the most recent news or updates related to ChatGPT."
 
 Expected result is RSS feed like this and it can be shared with other people by Decentralized Identifiers called DIDs:
@@ -27,6 +27,42 @@ Expected result is RSS feed like this and it can be shared with other people by 
         <guid isPermaLink="true">http://www.thenationalnews.com/arts-culture/books/2024/01/20/japan-chatgpt-author-winner/</guid>
       </item>
       ...
+```
+### Example: analysis prompt
+"Recognize all facts in the following statements, and put them in the knowledge graph"
+```
+{
+  "0": {
+    "source": "Rie Kudan tasked internet bot to help write 5 per cent of novel Rie Kudan's book Tokyo-to Dojo-to (Tokyo Sympathy Tower) won the Akutagawa Prize.",
+    "facts": [
+      "Rie Kudan Won the Akutagawa Prize(Is part of) Tokyo Sympathy Tower (Tokyo-to Dojo-to)",
+      "Rie Kudan The book Tokyo Sympathy Tower (Tokyo-to Dojo-to)(Is part of) Novel",
+      "Rie Kudan The novel Tokyo Sympathy Tower (Tokyo-to Dojo-to)(Won the) Akutagawa Prize"
+    ],
+    "graph": [
+      {
+        "concept1": "Rie Kudan",
+        "concept2": "Tokyo Sympathy Tower (Tokyo-to Dojo-to)",
+        "entity": "Won the Akutagawa Prize",
+        "relationship": "Is part of",
+        "importance": "4"
+      },
+      {
+        "concept1": "Rie Kudan",
+        "concept2": "Novel",
+        "entity": "The book Tokyo Sympathy Tower (Tokyo-to Dojo-to)",
+        "relationship": "Is part of",
+        "importance": "4"
+      },
+      {
+        "concept1": "Rie Kudan",
+        "concept2": "Akutagawa Prize",
+        "entity": "The novel Tokyo Sympathy Tower (Tokyo-to Dojo-to)",
+        "relationship": "Won the",
+        "importance": "4"
+      }
+    ]
+  },
 ```
 
 ## Features
