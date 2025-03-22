@@ -2,11 +2,12 @@ import os
 import rdflib
 from rdflib import Graph, Namespace, URIRef, Literal
 from rdflib.namespace import RDF, RDFS, XSD
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Header
 from fastapi.responses import JSONResponse
 from typing import List, Dict, Any, Optional
 import uvicorn
 from pydantic import BaseModel
+import xml.etree.ElementTree as ET
 
 # Create FastAPI app
 app = FastAPI(
@@ -539,6 +540,73 @@ async def get_unique_objects():
         unique_objects.add(str(obj))  # Only add the object to the set
     
     return sorted(list(unique_objects))
+
+@app.get("/search_objects", response_model=List[str])
+async def search_objects(query: str = Query(...)):
+    """
+    Search for unique objects in the RDF graph that match the given query.
+
+    Args:
+        query (str): The search term to filter objects.
+
+    Returns:
+        List[str]: A list of unique objects that match the search term.
+    """
+    try:
+        # Retrieve all unique objects from the graph
+        unique_objects = set()
+        for _, _, obj in graph:
+            unique_objects.add(str(obj))
+
+        # Filter objects based on the search query
+        filtered_objects = [obj for obj in unique_objects if query.lower() in obj.lower()]
+        return filtered_objects
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+def load_xml_as_rdf(file_path):
+    global graph  # Ensure we are using the global graph variable
+    graph = Graph()  # Initialize the graph here
+    try:
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+        
+        # Create RDF triples from XML data
+        for elem in root.iter():
+            # Example: Create a URI for each element based on its tag
+            subject = URIRef("%s/%s" % (str(elem.tag).replace("{", "").replace("}", "").replace("\"", ""), str(elem.attrib.get('id', 'default')).replace("{", "").replace("}", "").replace("\"", "")))
+            graph.add((subject, URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), URIRef("http://www.example.org/Element")))
+            if elem.text:
+                graph.add((subject, URIRef("http://www.example.org/text"), Literal(elem.text)))
+            for attr, value in elem.attrib.items():
+                # Clean the attribute name and construct the URI
+                clean_attr = str(attr).replace("{", "").replace("}", "").replace("\"", "")
+                graph.add((subject, URIRef(f"http://www.example.org/attribute/{clean_attr}"), Literal(value)))
+
+        return graph
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error parsing XML file: {str(e)}")
+
+@app.post("/load_rdf")
+async def load_rdf_graph(file_path: str = Query(...), accept: str = Header(None)):
+    if accept != "application/json":
+        raise HTTPException(status_code=406, detail="Not Acceptable. Please use application/json.")
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=400, detail="File not found.")
+    
+    try:
+        global graph
+        graph = load_xml_as_rdf(file_path)  # Load XML and convert to RDF
+        try:
+            serialize_graph(os.environ.get("DATA_DIR") + "/cbs_graph.ttl")
+        except Exception as e:
+            serialize_graph("../data/cbs_graph.ttl")
+        if len(graph) == 0:
+            raise HTTPException(status_code=400, detail="Graph is empty after loading.")
+        return {"message": "RDF graph loaded successfully."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 def start_server():
     """Start the FastAPI server."""
