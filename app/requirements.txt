@@ -1,0 +1,10 @@
+pytest
+fastapi
+uvicorn
+rdflib
+pytest-mock
+pytest-asyncio
+pytest-cov
+pytest-mock
+pytest-asyncio
+pytest-cov

@@ -1,0 +1,18 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  fastapi:
+    container_name: ghostexpert
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app  # Mount the app directory to the container for live updates
+      - ${DATA_DIR}:/data
+    environment:
+      - DATA_DIR=/data
+      - DUMP_FILE=${DUMP_FILE}
+      - PYTHONUNBUFFERED=1  # Ensures logs are printed in real-time
