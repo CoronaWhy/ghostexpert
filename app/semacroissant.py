@@ -3,11 +3,13 @@ import rdflib
 from rdflib import Graph, Namespace, URIRef, Literal
 from rdflib.namespace import RDF, RDFS, XSD
 from fastapi import FastAPI, HTTPException, Query, Header
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from typing import List, Dict, Any, Optional
 import uvicorn
 from pydantic import BaseModel
 import xml.etree.ElementTree as ET
+from translate import Translation
+from AnsweringMachine import AnsweringMachine
 
 # Create FastAPI app
 app = FastAPI(
@@ -225,6 +227,16 @@ async def read_root():
         }
     }
 
+@app.get("/translate", response_model=str)
+async def translate(text: str):
+    """
+    Translate a text to all languages.
+    """
+    print(text)
+    translations = Translation(text)
+    #return translations.print_rdf_graph()
+    return Response(content=translations.print_rdf_graph(), media_type='text/turtle')
+
 @app.post("/load", response_model=GraphStats)
 async def load_graph(file_path: str):
     """
@@ -260,6 +272,20 @@ async def load_graph(file_path: str):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/answer", response_model=str  )
+async def answer(question: str):
+    """
+    Answer a question using the AnsweringMachine.
+    """
+    user_request = f"List all triples where the object like '{question}'?" # List all of them" 
+    answering_machine = AnsweringMachine(question, user_request, DEBUG=False)
+    if graph is not None:
+        answering_machine.set_rdf_file(os.environ.get("DATA_DIR") + "/dynamic_graph.ttl")
+    else:
+        answering_machine.set_rdf_file("../data/dynamic_graph.ttl")
+    answer = answering_machine.process_question(question, user_request)
+    return Response(content=answer, media_type='text/turtle')
 
 @app.get("/stats", response_model=GraphStats)
 async def get_stats():
